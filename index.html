@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 落地工程：从数据治理到超级智能体</title>
+<meta name="description" content="写给对 AI 项目落地结果负责的人：把已经具备的模型能力，变成一条稳定运行、被业务认账、成本可控、可持续迭代的生产线。双卷 16 章，从数据治理到超级智能体。">
+<meta property="og:title" content="AI 落地工程：从数据治理到超级智能体">
+<meta property="og:description" content="模型不是瓶颈，数据和知识底座才是。双卷 16 章技术专著，配套代码仓库持续维护。">
+<style>
+:root{
+  --ink:#0F2430;
+  --ink-2:#15313F;
+  --paper:#F4F1E8;
+  --card:#FFFDF6;
+  --amber:#D8760F;
+  --amber-soft:#F0B26A;
+  --steel:#54707E;
+  --steel-faint:#9FB3BC;
+  --line:#D6CFBE;
+  --body:#2C2A24;
+  --muted:#6A655C;
+  --mono:ui-monospace,'SF Mono',Consolas,'Courier New',monospace;
+  --sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--body);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+section[id]{scroll-margin-top:80px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* ============ 导航 ============ */
+.nav{position:sticky;top:0;z-index:20;background:rgba(244,241,232,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1080px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-weight:800;font-size:16px;letter-spacing:.01em;white-space:nowrap;display:flex;align-items:baseline;gap:10px}
+.brand-en{font-family:var(--mono);font-size:10px;color:var(--steel);letter-spacing:.08em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:26px;font-size:13.5px}
+.nav-links a{color:var(--muted);transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-gh{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:6px 12px;border-radius:4px;color:var(--ink)!important}
+.nav-gh:hover{border-color:var(--amber);color:var(--amber)!important}
+
+/* ============ Hero ============ */
+.hero{position:relative;background:var(--ink);color:var(--paper);overflow:hidden}
+.hero-inner{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:104px 24px 128px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--amber-soft);margin-bottom:26px}
+.hero-title{font-size:clamp(42px,7vw,84px);font-weight:900;letter-spacing:-.025em;line-height:1.06;margin-bottom:10px}
+.hero-title .dot{color:var(--amber)}
+.hero-sub{font-size:clamp(20px,3vw,30px);font-weight:700;color:#E8E3D6;margin-bottom:14px}
+.hero-en{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--steel-faint);text-transform:uppercase;margin-bottom:44px}
+.hero-position{max-width:580px;font-size:16.5px;line-height:2;color:#C7D1D7;margin-bottom:40px}
+.hero-position strong{color:var(--paper)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px}
+.btn{display:inline-block;padding:13px 26px;border-radius:4px;font-size:14.5px;font-weight:700;transition:transform .15s,background .15s,border-color .15s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--amber);color:var(--ink)}
+.btn-primary:hover{background:var(--amber-soft)}
+.btn-ghost{border:1px solid #3C5A69;color:var(--paper)}
+.btn-ghost:hover{border-color:var(--steel-faint)}
+.hero-meta{font-family:var(--mono);font-size:11.5px;color:var(--steel-faint);letter-spacing:.04em}
+.scissors{position:absolute;right:-2%;bottom:-4%;width:56%;max-width:640px;opacity:.55;z-index:1;pointer-events:none}
+
+/* ============ 主线装配线 ============ */
+.line-section{background:var(--paper);border-bottom:1px solid var(--line)}
+.line-inner{max-width:1080px;margin:0 auto;padding:64px 24px 72px}
+.sec-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--amber);margin-bottom:12px}
+.sec-title{font-size:clamp(24px,3.4vw,36px);font-weight:900;letter-spacing:-.02em;line-height:1.25;margin-bottom:14px}
+.sec-desc{max-width:620px;color:var(--muted);font-size:15px;margin-bottom:52px}
+.line-track{display:grid;grid-template-columns:repeat(5,1fr);border-top:2px solid #C8C0AC;padding-top:0}
+.line-node{position:relative;padding:30px 14px 0 14px}
+.line-node::before{content:'';position:absolute;top:-8px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:3px solid var(--amber)}
+.line-node:last-child::before{background:var(--amber);border-color:var(--amber)}
+.line-no{font-family:var(--mono);font-size:11px;color:var(--steel);display:block;margin-bottom:6px}
+.line-name{font-weight:800;font-size:16.5px;display:block;margin-bottom:8px}
+.line-role{display:inline-block;font-family:var(--mono);font-size:10.5px;color:var(--steel);border:1px solid var(--line);border-radius:99px;padding:3px 10px;background:var(--card)}
+.line-arrow{position:absolute;right:8px;top:-7px;color:#B8AF98;font-size:15px}
+
+/* ============ 为什么 ============ */
+.why{background:var(--paper)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;padding:88px 0}
+.why-thesis{font-size:clamp(24px,3.2vw,34px);font-weight:900;line-height:1.35;letter-spacing:-.01em;margin-bottom:22px}
+.why-body{color:var(--muted);font-size:15px;margin-bottom:34px;max-width:440px}
+.cite{border-left:3px solid var(--amber);padding:14px 18px;background:var(--card);border-radius:0 6px 6px 0;margin-bottom:16px}
+.cite p{font-size:14px;color:var(--body)}
+.cite .src{font-family:var(--mono);font-size:11px;color:var(--steel);margin-top:6px;display:block}
+.cause-title{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--steel);margin:8px 0 18px}
+.cause{display:grid;grid-template-columns:88px 1fr 44px;align-items:center;gap:14px;margin-bottom:13px}
+.cause-label{font-size:13.5px;font-weight:700}
+.cause-track{height:13px;background:#E3DECE;border-radius:2px;overflow:hidden}
+.cause-bar{height:100%;background:var(--steel)}
+.cause-bar.hl{background:var(--amber)}
+.cause-val{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-align:right}
+.cause-note{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.8}
+
+/* ============ 统计条 ============ */
+.stats{background:var(--ink);color:var(--paper)}
+.stats-inner{max-width:1080px;margin:0 auto;padding:52px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat-no{font-family:var(--mono);font-size:clamp(26px,3vw,38px);font-weight:700;color:var(--amber-soft);line-height:1.1;margin-bottom:6px}
+.stat-label{font-size:13px;color:var(--steel-faint)}
+.stat-label b{color:var(--paper);font-weight:600}
+
+/* ============ 目录 ============ */
+.contents{padding:92px 0 20px}
+.vol-head{display:flex;align-items:baseline;gap:16px;margin:56px 0 24px}
+.vol-no{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.12em}
+.vol-name{font-size:21px;font-weight:900}
+.vol-span{font-size:13px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cards a.card{display:block;color:inherit}
+.card.locked{padding-right:64px}
+.card-lock{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--steel);border:1px solid var(--line);border-radius:99px;padding:2px 9px;background:rgba(255,253,246,.92);transition:color .15s,border-color .15s}
+.card.locked:hover .card-lock{color:var(--amber);border-color:var(--amber)}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px 18px 18px;transition:transform .18s,box-shadow .18s}
+.card::before{content:'';position:absolute;top:0;left:0;height:3px;width:0;background:var(--amber);border-radius:6px 6px 0 0;transition:width .25s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(15,36,48,.08)}
+.card:hover::before{width:100%}
+.card-no{font-family:var(--mono);font-size:12px;color:var(--steel);display:block;margin-bottom:8px}
+.card-name{font-size:15.5px;font-weight:800;line-height:1.45;display:block;margin-bottom:8px}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.75}
+.card-tag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink);background:var(--amber);border-radius:3px;padding:2px 8px;margin-left:8px;vertical-align:2px}
+.card.coda{border-style:dashed;background:transparent}
+.card.coda .card-name{color:var(--steel)}
+.contents-note{font-size:13px;color:var(--muted);margin-top:30px;padding-top:18px;border-top:1px solid var(--line);max-width:640px;line-height:1.9}
+
+/* ============ 工具 ============ */
+.tools{padding:92px 0}
+.tools-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:44px}
+.tool{display:grid;grid-template-columns:52px 1fr;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:22px}
+.tool-no{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--amber);line-height:1.1}
+.tool-name{font-size:15.5px;font-weight:800;display:block;margin-bottom:6px}
+.tool-desc{font-size:13.5px;color:var(--muted);line-height:1.75}
+.tools-note{font-size:13px;color:var(--muted);margin-top:22px}
+
+/* ============ 配套仓库 ============ */
+.repo{background:var(--ink);color:var(--paper)}
+.repo-inner{max-width:1080px;margin:0 auto;padding:92px 24px}
+.repo .sec-eyebrow{color:var(--amber-soft)}
+.repo .sec-title{color:var(--paper)}
+.repo .sec-desc{color:var(--steel-faint)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:48px 0 40px}
+.tier{background:var(--ink-2);border:1px solid #29495A;border-radius:6px;padding:24px}
+.tier-badge{font-family:var(--mono);font-size:12px;color:var(--amber-soft);display:block;margin-bottom:10px}
+.tier-name{font-size:15.5px;font-weight:800;display:block;margin-bottom:8px;color:var(--paper)}
+.tier-desc{font-size:13px;color:var(--steel-faint);line-height:1.75}
+.repo-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.repo-note{font-size:12.5px;color:var(--steel-faint)}
+
+/* ============ 页脚 ============ */
+footer{border-top:1px solid var(--line);background:var(--paper)}
+.foot-inner{max-width:1080px;margin:0 auto;padding:34px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.foot-en{font-family:var(--mono);font-size:11px;color:var(--steel);letter-spacing:.06em}
+.foot-meta{font-size:12.5px;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap}
+.foot-meta a{color:var(--muted)}
+.foot-meta a:hover{color:var(--amber)}
+
+/* ============ 响应式 ============ */
+@media (max-width:960px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .tiers{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr;gap:40px}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .scissors{opacity:.28}
+}
+@media (max-width:640px){
+  .brand-en{display:none}
+  .nav-links a:not(.nav-gh){display:none}
+  .hero-inner{padding:72px 24px 96px}
+  .cards{grid-template-columns:1fr}
+  .tools-list{grid-template-columns:1fr}
+  .line-track{grid-template-columns:1fr;border-top:none;border-left:2px solid #C8C0AC;padding-left:26px}
+  .line-node{padding:0 0 26px 0}
+  .line-node::before{top:4px;left:-33px}
+  .line-arrow{display:none}
+  .line-section .sec-desc{margin-bottom:36px}
+  .why-grid{padding:64px 0}
+  .contents{padding-top:64px}
+  .tools{padding:64px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">AI 落地工程<span class="brand-en">AI Deployment Engineering</span></a>
+    <nav class="nav-links">
+      <a href="#contents">全书目录</a>
+      <a href="#tools">五件工具</a>
+      <a href="#repo">配套代码</a>
+      <a class="nav-gh" href="https://github.com/jaccen/AI-deployment-engineering" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <p class="eyebrow">技术专著 · 双卷 · 16 章 · 约 36 万字 · 前 2 章免费试读</p>
+    <h1 class="hero-title">AI 落地工程<span class="dot">.</span></h1>
+    <p class="hero-sub">从数据治理到超级智能体</p>
+    <p class="hero-en">AI Deployment Engineering: From Data Governance to Superintelligent Agents</p>
+    <p class="hero-position">写给对 AI 项目落地结果负责的人——把已经具备的模型能力，变成一条<strong>稳定运行、被业务认账、成本可控、可持续迭代</strong>的生产线。</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="book/ch01.html">开始阅读第 1 章 →</a>
+      <a class="btn btn-ghost" href="#contents">浏览全书目录 ↓</a>
+    </div>
+    <p class="hero-meta">作者 Jaccen · MIT License · 前 2 章免费开放 · 解锁码阅读全书</p>
+  </div>
+  <svg class="scissors" viewBox="0 0 640 380" aria-hidden="true" fill="none">
+    <line x1="0" y1="330" x2="640" y2="330" stroke="#22414F" stroke-width="1"/>
+    <path d="M20 300 C 180 280, 320 210, 620 60" stroke="#D8760F" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M20 250 C 180 245, 400 240, 620 228" stroke="#9FB3BC" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="452" cy="150" r="5" fill="#F4F1E8"/>
+    <text x="472" y="146" font-family="ui-monospace,Consolas,monospace" font-size="11" fill="#9FB3BC">2022 → 2026</text>
+    <text x="546" y="66" font-family="ui-monospace,Consolas,monospace" font-size="11" fill="#D8760F">能力曲线 ↑</text>
+    <text x="546" y="232" font-family="ui-monospace,Consolas,monospace" font-size="11" fill="#9FB3BC">落地曲线 →</text>
+  </svg>
+</section>
+
+<section class="line-section" aria-label="全书主线">
+  <div class="line-inner">
+    <p class="sec-eyebrow">01 · 全书主线</p>
+    <h2 class="sec-title">一条从数据到价值的装配线。</h2>
+    <p class="sec-desc">模型不是瓶颈，数据和知识底座才是。全书沿五个工位推进：先打地基，再搭桥梁，然后装引擎、握方向盘，最后在真实产业里交付价值。</p>
+    <div class="line-track" role="list">
+      <div class="line-node" role="listitem"><span class="line-no">工位 01</span><span class="line-name">数据治理</span><span class="line-role">根基</span><span class="line-arrow">→</span></div>
+      <div class="line-node" role="listitem"><span class="line-no">工位 02</span><span class="line-name">知识工程</span><span class="line-role">桥梁</span><span class="line-arrow">→</span></div>
+      <div class="line-node" role="listitem"><span class="line-no">工位 03</span><span class="line-name">智能体工程</span><span class="line-role">引擎</span><span class="line-arrow">→</span></div>
+      <div class="line-node" role="listitem"><span class="line-no">工位 04</span><span class="line-name">FDE 方法论</span><span class="line-role">方向盘</span><span class="line-arrow">→</span></div>
+      <div class="line-node" role="listitem"><span class="line-no">工位 05</span><span class="line-name">产业实战</span><span class="line-role">价值</span><span class="line-arrow">→</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="why" aria-label="为什么需要这本书">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <p class="sec-eyebrow">02 · 问题</p>
+        <h2 class="why-thesis">模型能力年年提升，<br>落地成功率原地踏步。</h2>
+        <p class="why-body">把失败全部归因于"模型不够好"，是对问题的严重误读。模型只是系统中的一个组件——数据、工程、组织、商业四层没有跟上，项目仍然会失败。</p>
+        <div class="cite">
+          <p>审查 300+ 项目、访谈 52 家企业：企业投入 300–400 亿美元，<strong>95% 无可衡量财务回报</strong>。</p>
+          <span class="src">MIT NANDA《The GenAI Divide: State of AI in Business 2025》（2025-07）</span>
+        </div>
+        <div class="cite">
+          <p>生成式 AI 采用率已达 78%，但 <strong>&gt;80% 无可衡量收益</strong>，仅 1% 认为战略成熟；仅 23% 实现 agentic AI 规模化。</p>
+          <span class="src">McKinsey《Seizing the Agentic AI Advantage》2025-06 ·《The State of AI 2025》2025-11</span>
+        </div>
+      </div>
+      <div>
+        <p class="cause-title">失败归因 · 五层结构</p>
+        <div class="cause"><span class="cause-label">数据层</span><div class="cause-track"><div class="cause-bar hl" style="width:30%"></div></div><span class="cause-val">30%</span></div>
+        <div class="cause"><span class="cause-label">技术层</span><div class="cause-track"><div class="cause-bar" style="width:25%"></div></div><span class="cause-val">25%</span></div>
+        <div class="cause"><span class="cause-label">工程层</span><div class="cause-track"><div class="cause-bar" style="width:20%"></div></div><span class="cause-val">20%</span></div>
+        <div class="cause"><span class="cause-label">组织层</span><div class="cause-track"><div class="cause-bar" style="width:15%"></div></div><span class="cause-val">15%</span></div>
+        <div class="cause"><span class="cause-label">商业层</span><div class="cause-track"><div class="cause-bar" style="width:10%"></div></div><span class="cause-val">10%</span></div>
+        <p class="cause-note">占比为本书对公开项目的复盘归纳（非机构统计口径），推导方法与样本边界见第 1 章。技术问题只占约四分之一——数据层才是最大单项。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats" aria-label="全书规模">
+  <div class="stats-inner">
+    <div><div class="stat-no">16</div><div class="stat-label"><b>章</b>正文，双卷 8 + 8</div></div>
+    <div><div class="stat-no">36<span style="font-size:.55em">万字</span></div><div class="stat-label">全部基于<b>公开可核查</b>数据与出处</div></div>
+    <div><div class="stat-no">5</div><div class="stat-label"><b>件工程工具</b>，仓库直接下载</div></div>
+    <div><div class="stat-no">3</div><div class="stat-label">产业实战：<b>政务 · 金融 · 制造</b></div></div>
+  </div>
+</section>
+
+<section class="contents" id="contents">
+  <div class="wrap">
+    <p class="sec-eyebrow">03 · 目录</p>
+    <h2 class="sec-title">全书目录。</h2>
+
+    <div class="vol-head">
+      <span class="vol-no">上卷</span>
+      <span class="vol-name">数据与知识底座</span>
+      <span class="vol-span">第 1–8 章 · 打地基、搭桥梁</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="book/ch01.html">
+        <span class="card-no">第 01 章</span>
+        <span class="card-name">AI 落地的鸿沟<span class="card-tag">从这里开始</span></span>
+        <p class="card-desc">剪刀差：模型能力年年提升，落地成功率原地踏步。三个失败场景还原与归因结构。</p>
+      </a>
+      <a class="card" href="book/ch02.html">
+        <span class="card-no">第 02 章</span>
+        <span class="card-name">从 ML 工程到 AI 工程的范式迁移</span>
+        <p class="card-desc">核心转变：不训练模型，而是编排模型。新工程栈四层：模型、编排、数据、运营。</p>
+      </a>
+      <a class="card locked" href="book/ch03.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 03 章</span>
+        <span class="card-name">企业数据治理的新旧之辨</span>
+        <p class="card-desc">数据成熟度五层模型、语义治理与知识治理、AI 时代的数据质量评估。</p>
+      </a>
+      <a class="card locked" href="book/ch04.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 04 章</span>
+        <span class="card-name">从数据到知识</span>
+        <p class="card-desc">知识资产盘点、五层分层存储、采集更新流程与数据合规边界。</p>
+      </a>
+      <a class="card locked" href="book/ch05.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 05 章</span>
+        <span class="card-name">RAG 工程化深水区</span>
+        <p class="card-desc">朴素向量 RAG 的五个失败模式；BM25 + 向量 + 图谱三路检索与 RRF 融合；RAG 评估体系。</p>
+      </a>
+      <a class="card locked" href="book/ch06.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 06 章</span>
+        <span class="card-name">LLM Wiki 与知识沉淀</span>
+        <p class="card-desc">从"检索"到"沉淀"的范式跃迁：LLM Wiki 工程实现、失效边界与 OKF 开放知识格式。</p>
+      </a>
+      <a class="card locked" href="book/ch07.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 07 章</span>
+        <span class="card-name">本体驱动：让 AI 看懂企业业务</span>
+        <p class="card-desc">本体六要素建模、构建三步法、Palantir 与国内实践。给 Agent 一张业务地图。</p>
+      </a>
+      <a class="card locked" href="book/ch08.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 08 章</span>
+        <span class="card-name">GraphRAG 与混合知识架构</span>
+        <p class="card-desc">索引与查询机制拆解、Neo4j + Milvus 双库协同、信创与图数据库许可约束。</p>
+      </a>
+    </div>
+
+    <div class="vol-head">
+      <span class="vol-no">下卷</span>
+      <span class="vol-name">智能体与落地交付</span>
+      <span class="vol-span">第 9–16 章 + 结语 · 装引擎、握方向盘</span>
+    </div>
+    <div class="cards">
+      <a class="card locked" href="book/ch09.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 09 章</span>
+        <span class="card-name">Agent 架构设计</span>
+        <p class="card-desc">智能体四层进化、分层架构、模型选型五因子、Agent 评测与可观测性、工具权限控制。</p>
+      </a>
+      <a class="card locked" href="book/ch10.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 10 章</span>
+        <span class="card-name">多 Agent 协作与编排</span>
+        <p class="card-desc">五种协作模式、CoALA 四类记忆、本体驱动协作、MCP 协议、带阈值的微调决策。</p>
+      </a>
+      <a class="card locked" href="book/ch11.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 11 章</span>
+        <span class="card-name">超级智能体</span>
+        <p class="card-desc">六条可检验条件。目标态架构 + 现阶段可达工程组合，明确不承诺做不到的。</p>
+      </a>
+      <a class="card locked" href="book/ch12.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 12 章</span>
+        <span class="card-name">FDE 角色与场景诊断</span>
+        <p class="card-desc">零周调研法（五天计划 + 三张表）、AI 可行性矩阵、ROI 计算器、自研与外购决策。</p>
+      </a>
+      <a class="card locked" href="book/ch13.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 13 章</span>
+        <span class="card-name">部署架构与持续运营</span>
+        <p class="card-desc">级联路由 L0–L3 与阈值标定、高可用与降级、Token 经济学、效果度量与迭代闭环。</p>
+      </a>
+      <a class="card locked" href="book/ch14.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 14 章</span>
+        <span class="card-name">政务智能体</span>
+        <p class="card-desc">从热线到全场景：高频、强合规约束下的知识工程建设、架构决策与私有化部署。</p>
+      </a>
+      <a class="card locked" href="book/ch15.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 15 章</span>
+        <span class="card-name">金融智能体</span>
+        <p class="card-desc">智能问数、投研与风控：指标口径统一、语义层建设与强监管下的合规边界。</p>
+      </a>
+      <a class="card locked" href="book/ch16.html"><span class="card-lock">解锁</span>
+        <span class="card-no">第 16 章</span>
+        <span class="card-name">智能制造</span>
+        <p class="card-desc">AI 进厂的最后一公里：预测性维护、视觉质检、工艺优化，工业本体与多 Agent 协作。</p>
+      </a>
+      <a class="card locked coda" href="book/conclusion.html"><span class="card-lock">解锁</span>
+        <span class="card-no">结语</span>
+        <span class="card-name">AI 工程的下一个十年</span>
+        <p class="card-desc">世界模型、端侧 AI、Agent OS、FDE 的组织化与 AI Native 组织。</p>
+      </a>
+    </div>
+
+    <p class="contents-note"><a href="book/guide.html" style="color:var(--amber)">阅读指南</a>与前 2 章<a href="book/ch01.html" style="color:var(--amber)">免费开放</a>；第 3 章起各章支持在线试读（速览卡 + 开篇三段），输入解锁码即可阅读全文——一次解锁，全书 18 篇通用，本浏览器长期记忆。免费章节的 Markdown 源稿见仓库 <a href="https://github.com/jaccen/AI-deployment-engineering/tree/main/manuscript" target="_blank" rel="noopener" style="color:var(--amber)">manuscript/</a>；全部机构数据在书内标注"报告全称 + 发布时间 + 快照日期"。</p>
+  </div>
+</section>
+
+<section class="tools" id="tools">
+  <div class="wrap">
+    <p class="sec-eyebrow">04 · 可带走的资产</p>
+    <h2 class="sec-title">五件工程工具，不止是书里的插图。</h2>
+    <p class="sec-desc">每章都有"落地产物"，其中五件做成可直接使用的模板与脚本，配套仓库提供下载版本——这是本书与"实战书"的真正分界。</p>
+    <div class="tools-list">
+      <div class="tool"><span class="tool-no">01</span><div><span class="tool-name">企业数据成熟度五层自评表</span><p class="tool-desc">L1–L5 逐项打分，先定位你的企业处在哪一层，再决定投入方向。</p></div></div>
+      <div class="tool"><span class="tool-no">02</span><div><span class="tool-name">FDE 零周调研法</span><p class="tool-desc">五天调研计划 + 三张表，进场第一天就能开工；每天含判停条件。</p></div></div>
+      <div class="tool"><span class="tool-no">03</span><div><span class="tool-name">AI 场景可行性矩阵</span><p class="tool-desc">判断一个场景该不该做、先做哪个，避免在不可行场景上消耗预算。</p></div></div>
+      <div class="tool"><span class="tool-no">04</span><div><span class="tool-name">ROI 计算器</span><p class="tool-desc">成本拆解 vs 收益估算，公式带初始值，上线后按真实数据校准。</p></div></div>
+      <div class="tool"><span class="tool-no">05</span><div><span class="tool-name">本体六要素建模模板</span><p class="tool-desc">概念、对象、属性、关系、行为、约束六张表，配验证检查清单。</p></div></div>
+    </div>
+    <p class="tools-note">下载位置：配套仓库 <code style="font-family:var(--mono);font-size:12px">appendix/</code> 目录，随书持续维护。</p>
+  </div>
+</section>
+
+<section class="repo" id="repo">
+  <div class="repo-inner">
+    <p class="sec-eyebrow">05 · 配套代码</p>
+    <h2 class="sec-title">代码与书，同一生命周期。</h2>
+    <p class="sec-desc">三级代码制：能跑的必须可运行、持续维护；讲原理的给最小示例；讲架构的给配置与图，不建虚假仓库。书里的数据快照与工具版本季度更新，不随时间失真。</p>
+    <div class="tiers">
+      <div class="tier"><span class="tier-badge">Tier A</span><span class="tier-name">可运行且持续维护</span><p class="tier-desc">三路检索引擎、LLM Wiki 引擎、本体建模工具、多 Agent 编排框架、生产级部署框架。随书更新。</p></div>
+      <div class="tier"><span class="tier-badge">Tier B</span><span class="tier-name">单文件最小示例</span><p class="tier-desc">同一任务、两种工程栈的对照实现；成熟度评估、增量检测等够用即止的最小脚本。</p></div>
+      <div class="tier"><span class="tier-badge">Tier C</span><span class="tier-name">架构图与配置片段</span><p class="tier-desc">超级智能体等无法真跑的目标态架构，只给接口定义、沙盒配置与架构图，不做虚假仓库。</p></div>
+    </div>
+    <div class="repo-actions">
+      <a class="btn btn-primary" href="https://github.com/jaccen/AI-deployment-engineering" target="_blank" rel="noopener">进入 GitHub 仓库 ↗</a>
+      <span class="repo-note">MIT License · Issues 接受勘误与建议</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <div class="foot-en">AI Deployment Engineering: From Data Governance to Superintelligent Agents</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">《AI 落地工程：从数据治理到超级智能体》官方网站</div>
+    </div>
+    <div class="foot-meta">
+      <span>访客 <span id="busuanzi_site_uv">-</span> 人 · 总阅读 <span id="busuanzi_site_pv">-</span> 次</span>
+      <a href="https://github.com/jaccen/AI-deployment-engineering" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://github.com/jaccen/AI-deployment-engineering/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      <span>© 2026 Jaccen</span>
+    </div>
+  </div>
+</footer>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+</html>
