@@ -1,13 +1,4 @@
----
-AIGC:
-  ContentProducer: '001191110102MAD55U9H0F10002'
-  ContentPropagator: '001191110102MAD55U9H0F10002'
-  Label: '1'
-  ProduceID: '2c441d17-3ab2-4c59-a056-3d43fbbaacb0'
-  PropagateID: '2c441d17-3ab2-4c59-a056-3d43fbbaacb0'
-  ReservedCode1: '394cb683-925f-466b-8e9a-c5576798cb30'
-  ReservedCode2: '394cb683-925f-466b-8e9a-c5576798cb30'
----
+
 
 # AI-deployment-engineering
 
