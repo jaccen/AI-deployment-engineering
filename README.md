@@ -114,7 +114,7 @@
 - **免费开放**：阅读指南与第 1–2 章（`book/guide.html` / `book/ch01.html` / `book/ch02.html`），Markdown 源稿见 `manuscript/`；
 - **付费内容**：第 3–16 章、结语与三份附录。每章提供"速览卡 + 开篇"免费试读，全文经 AES-256-GCM 加密，输入解锁码后在线阅读；一次解锁，全书 18 篇通用，浏览器长期记忆；
 - **获取解锁码**：请通过以下任一方式联系作者（请注明"解锁码"）：
-  - 邮箱：（待补充，替换为作者邮箱）
+  - 邮箱：jaccen2007@163.com
   - 微信：（待补充，替换为作者微信号）
   - 或通过出版社 / 配套销售渠道获取；
 - **在线阅读地址**（GitHub Pages）：`https://jaccen.github.io/AI-deployment-engineering/`
