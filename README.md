@@ -116,7 +116,6 @@
 - **获取解锁码**：请通过以下任一方式联系作者（请注明"解锁码"）：
   - 邮箱：jaccen2007@163.com
   - 微信：微信公众号： AI应用研究营
-  - 或通过出版社 / 配套销售渠道获取；
 - **在线阅读地址**（GitHub Pages）：`https://jaccen.github.io/AI-deployment-engineering/`
 
 ---
@@ -222,7 +221,7 @@ Data Governance → Knowledge Engineering → Agent Engineering → FDE (Steerin
 
 - **Free**: the reading guide and Chapters 1–2 (`book/guide.html`, `book/ch01.html`, `book/ch02.html`); Markdown sources in `manuscript/`;
 - **Paid content**: Chapters 3–16, the closing, and three appendices. Each offers a free preview (summary card + opening paragraphs); full text is encrypted with AES-256-GCM and readable online after entering an unlock code — one code unlocks all 18 pieces, remembered by your browser;
-- **Get the unlock code**: contact the author (see the Chinese section above), or via the publisher / authorized channels;
+- **Get the unlock code**: contact the author (see the Chinese section above)
 - **Read online** (GitHub Pages): `https://jaccen.github.io/AI-deployment-engineering/`
 
 ---
